@@ -16,6 +16,9 @@ a {
 nav a:hover {
   color: rgb(197, 14, 54);
 }
+.error-message {
+  color: red;
+}
 header {
   height: 90px;
   padding: 10px 10% 10px 10%;

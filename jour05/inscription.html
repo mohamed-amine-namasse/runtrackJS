@@ -19,41 +19,88 @@
     <form action="inscription.html" method="POST">
       <div>
         <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required />
+        <input
+          type="text"
+          id="nom"
+          name="nom"
+          required
+          minlength="5"
+          maxlength="50"
+          onblur="validateField('nom', this.value)"
+        />
+        <span class="error-message" id="nom-error" aria-live="polite"></span>
       </div>
+
       <div>
         <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" required />
+        <input
+          type="text"
+          id="prenom"
+          name="prenom"
+          required
+          minlength="2"
+          maxlength="50"
+          onblur="validateField('prenom', this.value)"
+        />
+        <span class="error-message" id="prenom-error" aria-live="polite"></span>
       </div>
+
       <div>
         <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          onblur="validateEmail(this.value)"
+        />
+        <span class="error-message" id="email-error" aria-live="polite"></span>
       </div>
+
       <div>
         <label for="password">Mot de passe :</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          minlength="8"
-          required
-        />
+        <input type="password" id="password" name="password" required
+        minlength="8" onblur="validatePassword(this.value)"" />
+        <span
+          class="error-message"
+          id="password-error"
+          aria-live="polite"
+        ></span>
       </div>
 
       <div>
         <label for="adresse">Adresse :</label>
-        <input type="text" id="adresse" name="adresse" required />
+        <input
+          type="text"
+          id="adresse"
+          name="adresse"
+          required
+          minlength="5"
+          onblur="validateField('adresse', this.value)"
+        />
+        <span
+          class="error-message"
+          id="adresse-error"
+          aria-live="polite"
+        ></span>
       </div>
+
       <div>
         <label for="code_postal">Code postal :</label>
         <input
           type="text"
           id="code_postal"
           name="code_postal"
-          pattern="[0-9]{5}"
-          title="Cinq chiffres pour le code postal"
           required
+          pattern="[0-9]{5}"
+          maxlength="5"
+          onblur="validateField('code_postal', this.value)"
         />
+        <span
+          class="error-message"
+          id="code_postal-error"
+          aria-live="polite"
+        ></span>
       </div>
 
       <button type="submit">S'inscrire</button>
