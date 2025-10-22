@@ -35,3 +35,46 @@ function rebootMonde() {
   const contenuElement = document.getElementById("jumbotron-content");
   contenuElement.innerHTML = citationAleatoire.texte;
 }
+
+// Fonction pour la pagination
+const pageContent = {
+  1: {
+    title: "Vue Globale du Monde (Page 1)",
+    content: `
+                    <p>Ceci est la première page de notre documentation. Elle présente une vue d'ensemble, 
+                    avec des définitions classiques sur le concept de "Monde" et son environnement. 
+                    C'est l'état initial, le point de départ avant toute exploration ou modification.</p>
+                    
+                `,
+  },
+  2: {
+    title: "La Question Existentielle (Page 2)",
+    content: `
+                    <p>Le monde n'est peut-être pas seulement ce que nous percevons. 
+                    Cette section explore les théories alternatives, les simulations et les univers parallèles. 
+                    Sommes-nous réels ? La réponse est dans la documentation, quelque part entre les pages 2 et 3.</p>
+                    
+                `,
+  },
+  3: {
+    title: "Le Futur (Page 3)",
+    content: `
+                    <p>Projections sur le 'Monde' dans 50 ans. Développement de l'IA, colonisation spatiale, 
+                    et le triomphe des DogeCoins. Tout ce que vous devez savoir pour préparer 
+                    votre diplôme de web-designer de l'an 2077.</p>
+                   
+                `,
+  },
+};
+
+function changePageContent(pageIndex) {
+  const data = pageContent[pageIndex];
+
+  if (data) {
+    // Met à jour le titre (h2)
+    document.getElementById("jumbotron-title").textContent = data.title;
+
+    // Met à jour le contenu (div#jumbotron-content)
+    document.getElementById("jumbotron-content").innerHTML = data.content;
+  }
+}
