@@ -78,3 +78,23 @@ function changePageContent(pageIndex) {
     document.getElementById("jumbotron-content").innerHTML = data.content;
   }
 }
+
+// Gestion de l'état actif dans la liste groupée
+function setActiveItem(clickedElement) {
+  // 1. Désactiver l'élément actuellement actif
+  // Sélectionne tous les éléments avec la classe 'active' à l'intérieur de la liste
+  const activeItems = document.querySelectorAll("#hell-list .active");
+
+  // Pour chaque élément actif trouvé, retire la classe 'active' et 'aria-current'
+  activeItems.forEach((item) => {
+    item.classList.remove("active");
+    item.removeAttribute("aria-current");
+  });
+
+  // 2. Activer l'élément cliqué
+  // Ajoute la classe 'active' à l'élément qui vient d'être cliqué (passé en argument)
+  clickedElement.classList.add("active");
+
+  // Ajoute l'attribut aria-current pour l'accessibilité
+  clickedElement.setAttribute("aria-current", "true");
+}
