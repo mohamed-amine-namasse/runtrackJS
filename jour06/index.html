@@ -107,13 +107,18 @@
           </div>
           <div class="d-flex justify-content-end">
             <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
+              <ul id="pagination-list" class="pagination">
+                <li class="page-item disabled">
+                  <a
+                    class="page-link"
+                    href="#"
+                    onclick="previousPage()"
+                    aria-label="Previous"
+                  >
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item">
+                <li class="page-item active">
                   <a class="page-link" href="#" onclick="changePageContent(1)"
                     >1</a
                   >
@@ -129,7 +134,12 @@
                   >
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
+                  <a
+                    class="page-link"
+                    href="#"
+                    onclick="nextPage()"
+                    aria-label="Next"
+                  >
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>

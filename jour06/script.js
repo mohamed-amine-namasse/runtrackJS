@@ -35,7 +35,10 @@ function rebootMonde() {
   const contenuElement = document.getElementById("jumbotron-content");
   contenuElement.innerHTML = citationAleatoire.texte;
 }
+const TOTAL_PAGES = 3;
 
+// Initialisation de la page actuelle (commence à 1)
+let currentPageIndex = 1;
 // Fonction pour la pagination
 const pageContent = {
   1: {
@@ -67,18 +70,74 @@ const pageContent = {
   },
 };
 
+// Fonction principale pour changer de page et mettre à jour l'état
 function changePageContent(pageIndex) {
+  // S'assurer que l'index est valide
+  if (pageIndex < 1 || pageIndex > TOTAL_PAGES) {
+    return;
+  }
+
+  // 1. Mettre à jour l'index global
+  currentPageIndex = pageIndex;
+
+  // 2. Mise à jour du contenu du Jumbotron
   const data = pageContent[pageIndex];
-
   if (data) {
-    // Met à jour le titre (h2)
     document.getElementById("jumbotron-title").textContent = data.title;
-
-    // Met à jour le contenu (div#jumbotron-content)
     document.getElementById("jumbotron-content").innerHTML = data.content;
+  }
+
+  // 3. Mise à jour de l'état "actif" des numéros de page
+  // On sélectionne tous les <li> qui ne sont ni le premier ni le dernier enfant
+  const pageNumberItems = document.querySelectorAll(
+    "#pagination-list .page-item:not(:first-child):not(:last-child)"
+  );
+
+  pageNumberItems.forEach((item, index) => {
+    // index + 1 correspond au numéro de la page (1, 2, 3...)
+    if (index + 1 === pageIndex) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
+  });
+
+  // 4. Mise à jour de l'état "disabled" des boutons Précédent et Suivant
+  const prevButtonLi = document.querySelector(
+    "#pagination-list li:first-child"
+  );
+  const nextButtonLi = document.querySelector("#pagination-list li:last-child");
+
+  // Précédent
+  if (currentPageIndex <= 1) {
+    prevButtonLi.classList.add("disabled");
+  } else {
+    prevButtonLi.classList.remove("disabled");
+  }
+
+  // Suivant
+  if (currentPageIndex >= TOTAL_PAGES) {
+    nextButtonLi.classList.add("disabled");
+  } else {
+    nextButtonLi.classList.remove("disabled");
   }
 }
 
+// Fonction Gestion du bouton Précédent
+function previousPage() {
+  // Utilise l'index global stocké
+  if (currentPageIndex > 1) {
+    changePageContent(currentPageIndex - 1);
+  }
+}
+
+// Fonction Gestion du bouton Suivant
+function nextPage() {
+  // Utilise l'index global stocké
+  if (currentPageIndex < TOTAL_PAGES) {
+    changePageContent(currentPageIndex + 1);
+  }
+}
 // Gestion de l'état actif dans la liste groupée
 function setActiveItem(clickedElement) {
   // 1. Désactiver l'élément actuellement actif
