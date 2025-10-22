@@ -102,7 +102,11 @@
           >
             Rebooter le monde
           </button>
-          <div class="spinner-border text-info" role="status">
+          <div
+            id="spinnerContainer"
+            class="spinner-border text-info"
+            role="status"
+          >
             <span class="visually-hidden">Loading...</span>
           </div>
           <div class="d-flex justify-content-end">
@@ -308,29 +312,30 @@
           </div>
         </div>
 
-        <form style="width: 45%">
+        <form
+          style="width: 45%"
+          onsubmit="validateAndChangeSpinnerColor(event)"
+        >
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label"
-              >Email address</label
-            >
+            <label for="formEmail" class="form-label">Email address</label>
             <input
               type="email"
               class="form-control"
-              id="exampleInputEmail1"
+              id="formEmail"
               aria-describedby="emailHelp"
+              required
             />
             <div id="emailHelp" class="form-text">
               We'll never share your email with anyone else.
             </div>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Password</label
-            >
+            <label for="formPassword" class="form-label">Password</label>
             <input
               type="password"
               class="form-control"
-              id="exampleInputPassword1"
+              id="formPassword"
+              required
             />
           </div>
           <div class="mb-3 form-check">

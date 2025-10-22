@@ -246,3 +246,90 @@ document.addEventListener("keydown", (event) => {
     showRecapModal();
   }
 });
+
+// Couleurs de spinner disponibles (classes Bootstrap)
+const SPINNER_COLORS = [
+  "text-primary",
+  "text-secondary",
+  "text-success",
+  "text-danger",
+  "text-warning",
+  "text-info",
+  "text-light",
+  "text-dark",
+];
+
+// Variable pour stocker la classe de couleur actuelle du spinner
+let currentSpinnerColorClass = "text-info"; // Valeur par défaut si l'élément n'est pas encore chargé
+
+// --- Nouvelle Fonction : Validation du Formulaire et Changement de Spinner ---
+
+/**
+ * Valide les champs du formulaire et change la couleur du spinner.
+ * @param {Event} event - L'événement de soumission du formulaire.
+ */
+function validateAndChangeSpinnerColor(event) {
+  // Empêche le comportement par défaut (rechargement de la page)
+  event.preventDefault();
+
+  // Récupérer les valeurs des champs du formulaire de droite
+  const emailInput = document.getElementById("formEmail");
+  const passwordInput = document.getElementById("formPassword");
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  // Validation : S'assurer qu'ils ne sont pas vides
+  if (email && password) {
+    const spinner = document.getElementById("spinnerContainer");
+    if (!spinner) return;
+
+    // 1. Sélectionner une nouvelle couleur aléatoire
+    let newColorClass;
+    do {
+      const randomIndex = Math.floor(Math.random() * SPINNER_COLORS.length);
+      newColorClass = SPINNER_COLORS[randomIndex];
+    } while (newColorClass === currentSpinnerColorClass); // S'assurer que la couleur change
+
+    // 2. Appliquer la nouvelle couleur
+    // Retirer l'ancienne classe de couleur (celle qui a été appliquée précédemment)
+    spinner.classList.remove(currentSpinnerColorClass);
+
+    // Ajouter la nouvelle classe de couleur
+    spinner.classList.add(newColorClass);
+
+    // Mettre à jour la couleur actuelle
+    currentSpinnerColorClass = newColorClass;
+
+    console.log(
+      `Validation réussie ! Nouvelle couleur du spinner : ${newColorClass}`
+    );
+  } else {
+    console.log(
+      "Échec de la validation : L'email et le mot de passe doivent être remplis."
+    );
+  }
+}
+
+/**
+ * Lit la classe de couleur initiale du spinner pour une gestion correcte par la suite.
+ */
+function initializeSpinnerColor() {
+  const spinner = document.getElementById("spinnerContainer");
+  if (spinner) {
+    // Cherche la classe text-* actuellement appliquée sur le spinner
+    const currentClass = Array.from(spinner.classList).find((cls) =>
+      cls.startsWith("text-")
+    );
+    if (currentClass) {
+      currentSpinnerColorClass = currentClass;
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Initialiser la pagination
+  changePageContent(1);
+  // 2. Initialiser la couleur du spinner pour que la suppression de la classe fonctionne
+  initializeSpinnerColor();
+});
