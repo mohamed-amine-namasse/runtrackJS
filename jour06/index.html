@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bootstrap demo</title>
+    <script src="./script.js" defer></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -65,27 +66,40 @@
                 Un papillon c'est un peu comme une chenille,mais avec des ailes.
                 Ne pas ingerer.
               </p>
-              <a href="#" class="btn btn-primary"
+              <a
+                href="#"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmationAchatModal"
                 >Commander votre propre papillon</a
               >
             </div>
           </div>
         </div>
 
-        <div class="col-md-7 p-4 bg-dark-subtle">
-          <h2 class="fs-1 mt-5 fw-light">Bonjour, monde!</h2>
-          <p>
-            Il existe plusieurs visions du terme:<br />
-            le monde est la matière,l'espace et les phénomènes qui nous sont
-            accessibles par les sens, l'expérience ou la raison.<br />
-            Le sens le plus courant désigne notre planète.la Terre, avec ses
-            habitants, et son environnement plus ou moins naturel.
-          </p>
-          <hr />
-          <p class="fw-bold">
-            le sens étendu désigne l'univers dans son ensemble
-          </p>
-          <button type="button" class="btn btn-danger">
+        <div id="jumbotron-text-container" class="col-md-7 p-4 bg-dark-subtle">
+          <h2 id="jumbotron-title" class="fs-1 mt-5 fw-light">
+            Bonjour, monde!
+          </h2>
+          <div id="jumbotron-content">
+            <p>
+              Il existe plusieurs visions du terme:<br />
+              le monde est la matière,l'espace et les phénomènes qui nous sont
+              accessibles par les sens, l'expérience ou la raison.<br />
+              Le sens le plus courant désigne notre planète.la Terre, avec ses
+              habitants, et son environnement plus ou moins naturel.
+            </p>
+            <hr />
+            <p class="fw-bold">
+              le sens étendu désigne l'univers dans son ensemble
+            </p>
+          </div>
+          <button
+            type="button"
+            class="btn btn-danger"
+            id="reboot-button"
+            onclick="rebootMonde()"
+          >
             Rebooter le monde
           </button>
           <div class="spinner-border text-info" role="status">
@@ -232,6 +246,45 @@
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="confirmationAchatModal"
+      tabindex="-1"
+      aria-labelledby="confirmationAchatModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmationAchatModalLabel">
+              Confirmation d'achat
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Êtes-vous sûr de vouloir commander votre propre papillon ?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Annuler
+            </button>
+            <button type="button" class="btn btn-primary">
+              Confirmer l'achat
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <script
