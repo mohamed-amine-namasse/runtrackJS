@@ -183,3 +183,66 @@ function changeProgressBar(amount) {
   progressBar.setAttribute("aria-valuenow", newValue);
   progressBarInner.style.width = newValue + "%";
 }
+
+// Séquence de touches pour l'Easter Egg
+const KONAMI_CODE = ["d", "g", "c"];
+let pressedKeys = [];
+
+// --- Fonctions de l'Easter Egg  ---
+
+/**
+ * Collecte les données du formulaire et les affiche dans la modale.
+ */
+function showRecapModal() {
+  // Récupérer les valeurs des champs du formulaire de gauche
+  const login = document.getElementById("inputLogin").value || "Non renseigné";
+  const password =
+    document.getElementById("inputPassword").value || "Non renseigné";
+  const url = document.getElementById("inputURL").value || "Non renseigné";
+  const amount =
+    document.getElementById("inputAmount").value || "Non renseigné";
+
+  // Construire le contenu HTML
+  const recapHtml = `
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Login:</strong> ${login}</li>
+                    <li class="list-group-item"><strong>Mot de Passe:</strong> ${password}</li>
+                    <li class="list-group-item"><strong>URL (DogeCoin):</strong> ${url}</li>
+                    <li class="list-group-item"><strong>Amount:</strong> ${amount}</li>
+                </ul>
+            `;
+
+  // Insérer le contenu dans la modale
+  document.getElementById("recapModalContent").innerHTML = recapHtml;
+
+  // Afficher la modale
+  const recapModal = new bootstrap.Modal(document.getElementById("recapModal"));
+  recapModal.show();
+
+  // Réinitialiser la séquence de touches après l'affichage
+  pressedKeys = [];
+}
+
+/**
+ * Écouteur d'événement pour le raccourci clavier.
+ * @param {KeyboardEvent} event
+ */
+document.addEventListener("keydown", (event) => {
+  const key = event.key.toLowerCase();
+
+  // 1. Ajouter la touche pressée à la séquence
+  pressedKeys.push(key);
+
+  // 2. Maintenir uniquement les 3 dernières touches
+  if (pressedKeys.length > KONAMI_CODE.length) {
+    pressedKeys.shift();
+  }
+
+  // 3. Vérifier si la séquence correspond
+  if (
+    pressedKeys.length === KONAMI_CODE.length &&
+    pressedKeys.every((value, index) => value === KONAMI_CODE[index])
+  ) {
+    showRecapModal();
+  }
+});
