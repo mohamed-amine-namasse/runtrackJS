@@ -218,22 +218,40 @@
           </ul>
         </div>
       </div>
-      <div class="mx-auto p-4" style="width: 740px">
+      <div class="mx-auto p-4" style="width: 700px">
         <p class="text-end fw-bold">Installation de AI 9000</p>
-        <div
-          class="progress"
-          role="progressbar"
-          aria-label="Warning striped example"
-          aria-valuenow="75"
-          aria-valuemin="0"
-          aria-valuemax="100"
-        >
+        <div class="d-flex align-items-center">
+          <button
+            class="btn btn-sm btn-secondary me-2"
+            onclick="changeProgressBar(-10)"
+          >
+            ←
+          </button>
           <div
-            class="progress-bar progress-bar-striped bg-warning"
-            style="width: 75%"
-          ></div>
+            id="mainProgressBar"
+            class="progress flex-grow-1"
+            role="progressbar"
+            aria-label="Warning striped example"
+            aria-valuenow="75"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 100%"
+          >
+            <div
+              id="progressBarInner"
+              class="progress-bar progress-bar-striped bg-warning"
+              style="width: 75%"
+            ></div>
+          </div>
+          <button
+            class="btn btn-sm btn-secondary ms-2"
+            onclick="changeProgressBar(10)"
+          >
+            →
+          </button>
         </div>
       </div>
+
       <div class="d-flex justify-content-around">
         <div>
           <p class="fw-bold">Recevez votre copie gratuite d'internet 2!</p>

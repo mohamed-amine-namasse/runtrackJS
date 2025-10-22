@@ -157,3 +157,29 @@ function setActiveItem(clickedElement) {
   // Ajoute l'attribut aria-current pour l'accessibilité
   clickedElement.setAttribute("aria-current", "true");
 }
+
+// --- Fonctions pour la Barre de Progression  ---
+
+/**
+ * Augmente ou diminue la barre de progression.
+ * @param {number} amount - La valeur à ajouter (positif) ou à soustraire (négatif), ex: 10 ou -10.
+ */
+function changeProgressBar(amount) {
+  const progressBar = document.getElementById("mainProgressBar");
+  const progressBarInner = document.getElementById("progressBarInner");
+
+  if (!progressBar || !progressBarInner) return;
+
+  // Récupérer la valeur actuelle
+  let currentValue = parseInt(progressBar.getAttribute("aria-valuenow"));
+
+  // Calculer la nouvelle valeur
+  let newValue = currentValue + amount;
+
+  // Limiter entre 0 et 100
+  newValue = Math.max(0, Math.min(100, newValue));
+
+  // Appliquer la nouvelle valeur
+  progressBar.setAttribute("aria-valuenow", newValue);
+  progressBarInner.style.width = newValue + "%";
+}
