@@ -2,62 +2,173 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Grille Bootstrap Personnalisée</title>
+
+    <title>Grille Bootstrap Responsive (Mobile & Desktop)</title>
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+
+    <style>
+      /* Couleurs  */
+      .custom-info {
+        background-color: #87ceeb;
+      } /* Bleu clair */
+      .custom-primary {
+        background-color: #6a5acd;
+      } /* Violet */
+      .custom-warning {
+        background-color: #c3b1e1;
+      } /* Lilas */
+      .custom-danger {
+        background-color: #fa8072;
+      } /* Saumon */
+      .bloc {
+        padding: 10px;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+      }
+
+      /* Hauteur ajustée pour Desktop (>= 992px) */
+      @media (min-width: 992px) {
+        .h-lg-250 {
+          height: 250px !important;
+        }
+        .h-lg-150 {
+          height: 150px !important;
+        }
+        .h-lg-100 {
+          height: 100px !important;
+        }
+      }
+    </style>
   </head>
+
   <body>
     <div class="container py-4">
-      <div class="row mb-3" style="height: 200px">
+      <div class="row mb-3" style="height: 100px">
         <div class="col-12">
-          <div class="bg-info-subtle" style="height: 100%"></div>
+          <div class="bloc custom-info" style="height: 100%">
+            Élément 1 (Bleu Clair)
+          </div>
         </div>
       </div>
 
-      <div class="row gx-3 mb-3" style="height: 200px">
-        <div class="col-4">
-          <div class="bg-primary-subtle" style="height: 100%"></div>
+      <div class="row mb-3 d-lg-none">
+        <div class="col-12 mb-3" style="height: 80px">
+          <div class="bloc custom-primary" style="height: 100%">
+            Élément 2 (Mobile)
+          </div>
         </div>
 
-        <div class="col-4">
-          <div class="bg-primary-subtle" style="height: 100%"></div>
+        <div class="col-6 mb-3" style="height: 150px">
+          <div class="bloc custom-primary" style="height: 100%">
+            Élément 3 (Mobile)
+          </div>
+        </div>
+        <div class="col-6 mb-3" style="height: 150px">
+          <div class="bloc custom-primary" style="height: 100%">
+            Élément 4 (Mobile)
+          </div>
         </div>
 
-        <div class="col-4">
-          <div class="bg-primary-subtle" style="height: 100%"></div>
+        <div class="row justify-content-center mb-3">
+          <div class="col-4" style="height: 50px">
+            <div class="bloc custom-warning" style="height: 100%">
+              Élément 5 (Mobile)
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center mb-4">
+          <div class="col-8" style="height: 50px">
+            <div class="bloc custom-warning" style="height: 100%">
+              Élément 6 (Mobile)
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row gx-3 mb-4" style="height: 100px">
-        <div class="col-8">
-          <div class="bg-warning-subtle" style="height: 100%"></div>
+      <div class="row mb-3 d-none d-lg-flex">
+        <div class="col-lg-12">
+          <div class="row gx-3">
+            <div class="col-lg-4 mb-3">
+              <div class="bloc custom-primary h-lg-250" style="height: 100%">
+                Élément 2 (Desktop)
+              </div>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <div class="bloc custom-primary h-lg-250" style="height: 100%">
+                Élément 3 (Desktop)
+              </div>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <div class="bloc custom-primary h-lg-250" style="height: 100%">
+                Élément 4 (Desktop)
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="col-4">
-          <div class="bg-warning-subtle" style="height: 100%"></div>
+        <div class="col-lg-12">
+          <div class="row gx-3">
+            <div class="col-lg-8 mb-3">
+              <div class="bloc custom-warning h-lg-100" style="height: 100%">
+                Élément 6 (Desktop)
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <div class="bloc custom-warning h-lg-100" style="height: 100%">
+                Élément 5 (Desktop)
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row" style="height: 30px">
-        <div class="col-4">
-          <div class="bg-danger-subtle" style="height: 100%"></div>
+      <div class="row gx-3">
+        <div class="col-4 d-lg-none" style="height: 80px">
+          <div class="bloc custom-danger" style="height: 100%">
+            Élément 7 (Mobile)
+          </div>
+        </div>
+        <div class="col-4 d-lg-none" style="height: 80px">
+          <div class="bloc custom-danger" style="height: 100%">
+            Élément 8 (Mobile)
+          </div>
+        </div>
+        <div class="col-4 d-lg-none" style="height: 80px">
+          <div class="bloc custom-danger" style="height: 100%">
+            Élément 9 (Mobile)
+          </div>
+        </div>
+
+        <div class="col-4 d-none d-lg-block" style="height: 40px">
+          <div class="bloc custom-danger" style="height: 100%">
+            Élément 7 (Desktop)
+          </div>
         </div>
       </div>
-
-      <div class="row" style="height: 30px">
-        <div class="col-4 offset-4">
-          <div class="bg-danger-subtle" style="height: 100%"></div>
+      <div class="row">
+        <div class="col-4 offset-4 d-none d-lg-block" style="height: 40px">
+          <div class="bloc custom-danger" style="height: 100%">
+            Élément 8 (Desktop)
+          </div>
         </div>
       </div>
-
-      <div class="row" style="height: 30px">
-        <div class="col-4 offset-8">
-          <div class="bg-danger-subtle" style="height: 100%"></div>
+      <div class="row">
+        <div class="col-4 offset-8 d-none d-lg-block" style="height: 40px">
+          <div class="bloc custom-danger" style="height: 100%">
+            Élément 9 (Desktop)
+          </div>
         </div>
       </div>
     </div>
