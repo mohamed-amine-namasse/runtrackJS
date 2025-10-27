@@ -9,7 +9,7 @@
 
   <body>
     <header class="bg-white-700 shadow-lg p-4 flex justify-between">
-      <div class="flex items-center w-fit">
+      <div class="ml-2 flex items-center w-fit">
         <a href="index.php">
           <img class="w-20" src="./images/loom.svg" alt="logo page principal" />
         </a>
@@ -34,252 +34,50 @@
         <a href="#" class="hover:text-indigo-200 transition duration-300">
           Sign In</a
         >
-        <a href="#" class="hover:text-indigo-200 transition duration-300">
-          <button
-            class="w-full py-2 px-4 bg-indigo-500 text-white font-semibold rounded-full shadow-md hover:bg-indigo-400 transition duration-300"
+        <div class="flex gap-3">
+          <a href="#" class="hover:text-indigo-200 transition duration-300">
+            <button
+              class="w-full py-2 px-4 bg-indigo-500 text-white font-semibold rounded-full shadow-md hover:bg-indigo-400 transition duration-300"
+            >
+              Get Loom For Free
+            </button></a
           >
-            Get Loom For Free
-          </button></a
-        >
-        <a href="#" class="hover:text-indigo-200 transition duration-300">
-          <button
-            class="w-full py-2 px-4 bg-violet-300 text-black rounded-full shadow-md hover:bg-violet-200 transition duration-300"
-          >
-            Contact Sales
-          </button></a
-        >
+
+          <a href="#" class="hover:text-indigo-200 transition duration-300">
+            <button
+              class="w-full py-2 px-4 bg-violet-300 text-black rounded-full shadow-md hover:bg-violet-200 transition duration-300"
+            >
+              Contact Sales
+            </button>
+          </a>
+        </div>
       </nav>
     </header>
 
-    <main class="bg-sky-200 flex-grow p-8">
-      <section
-        class="creation-compte max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg"
-      >
-        <h1 class="text-3xl font-bold text-center mb-6">Création de Compte</h1>
+    <main class="bg-indigo-200 flex-grow p-8"></main>
 
-        <form action="./index.html" method="post" class="space-y-4">
-          <fieldset class="border border-gray-300 p-4 rounded-md">
-            <legend class="font-medium text-gray-700 px-1">Civilité</legend>
-
-            <div class="flex space-x-4">
-              <div class="flex items-center">
-                <input
-                  type="radio"
-                  id="madame"
-                  name="civilite"
-                  value="madame"
-                  required
-                  class="form-radio text-indigo-600"
-                />
-
-                <label for="madame" class="ml-2 text-gray-700">Madame</label>
-              </div>
-
-              <div class="flex items-center">
-                <input
-                  type="radio"
-                  id="monsieur"
-                  name="civilite"
-                  value="monsieur"
-                  class="form-radio text-indigo-600"
-                />
-
-                <label for="monsieur" class="ml-2 text-gray-700"
-                  >Monsieur</label
-                >
-              </div>
-
-              <div class="flex items-center">
-                <input
-                  type="radio"
-                  id="autre"
-                  name="civilite"
-                  value="autre"
-                  class="form-radio text-indigo-600"
-                />
-
-                <label for="autre" class="ml-2 text-gray-700">Autre</label>
-              </div>
-            </div>
-          </fieldset>
-
-          <div>
-            <label for="prenom" class="block text-sm font-medium text-gray-700"
-              >Prénom :</label
-            >
-
-            <input
-              type="text"
-              id="prenom"
-              name="prenom"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label for="nom" class="block text-sm font-medium text-gray-700"
-              >Nom :</label
-            >
-
-            <input
-              type="text"
-              id="nom"
-              name="nom"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label for="adresse" class="block text-sm font-medium text-gray-700"
-              >Adresse :</label
-            >
-
-            <input
-              type="text"
-              id="adresse"
-              name="adresse"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700"
-              >Adresse Email :</label
-            >
-
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label
-              for="motdepasse"
-              class="block text-sm font-medium text-gray-700"
-              >Mot de passe :</label
-            >
-
-            <input
-              type="password"
-              id="motdepasse"
-              name="motdepasse"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label
-              for="validation_motdepasse"
-              class="block text-sm font-medium text-gray-700"
-              >Confirmer le mot de passe :</label
-            >
-
-            <input
-              type="password"
-              id="validation_motdepasse"
-              name="validation_motdepasse"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <fieldset class="border border-gray-300 p-4 rounded-md">
-            <legend class="font-medium text-gray-700 px-1">Vos Passions</legend>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="informatique"
-                  name="passion"
-                  value="informatique"
-                  class="form-checkbox text-indigo-600 rounded"
-                />
-
-                <label for="informatique" class="ml-2 text-gray-700"
-                  >Informatique</label
-                >
-              </div>
-
-              <div class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="voyages"
-                  name="passion"
-                  value="voyages"
-                  class="form-checkbox text-indigo-600 rounded"
-                />
-
-                <label for="voyages" class="ml-2 text-gray-700">Voyages</label>
-              </div>
-
-              <div class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="sport"
-                  name="passion"
-                  value="sport"
-                  class="form-checkbox text-indigo-600 rounded"
-                />
-
-                <label for="sport" class="ml-2 text-gray-700">Sport</label>
-              </div>
-
-              <div class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="lecture"
-                  name="passion"
-                  value="lecture"
-                  class="form-checkbox text-indigo-600 rounded"
-                />
-
-                <label for="lecture" class="ml-2 text-gray-700">Lecture</label>
-              </div>
-            </div>
-          </fieldset>
-
-          <div>
-            <button
-              type="submit"
-              class="w-full py-2 px-4 bg-red-700 text-white font-semibold rounded-md shadow-md hover:bg-red-600 transition duration-300"
-            >
-              Créer mon compte
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
-
-    <footer class="bg-indigo-700 text-white shadow-lg p-4 flex justify-center">
-      <nav class="text-white space-x-6 text-md font-medium">
+    <footer class="bg-white-700 shadow-lg p-4 flex justify-center">
+      <nav class="text-black space-x-6 text-md font-medium">
         <a
           href="index.html"
           class="hover:text-indigo-200 transition duration-300"
-          >Accueil</a
+          >App</a
         >
         <a
           href="index.html"
           class="hover:text-indigo-200 transition duration-300"
-          >Inscription</a
+          >Solutions</a
         >
         <a
           href="index.html"
           class="hover:text-indigo-200 transition duration-300"
-          >Connexion</a
+          >For Business</a
         >
         <a
           href="index.html"
           class="hover:text-indigo-200 transition duration-300"
         >
-          Rechercher</a
+          Downloads</a
         >
       </nav>
     </footer>
