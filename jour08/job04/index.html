@@ -6,131 +6,258 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
+
+  <body class="flex flex-col min-h-screen">
     <header class="bg-indigo-700 text-white shadow-lg p-4 flex justify-end">
       <nav class="text-white space-x-6 text-lg font-medium">
-        <a href="#">Accueil</a>
-        <a href="#">Inscription</a>
-        <a href="#">Connexion</a>
-        <a href="#"> Rechercher</a>
+        <a href="#" class="hover:text-indigo-200 transition duration-300"
+          >Accueil</a
+        >
+
+        <a href="#" class="hover:text-indigo-200 transition duration-300"
+          >Inscription</a
+        >
+
+        <a href="#" class="hover:text-indigo-200 transition duration-300"
+          >Connexion</a
+        >
+
+        <a href="#" class="hover:text-indigo-200 transition duration-300">
+          Rechercher</a
+        >
       </nav>
     </header>
-    <main class="flex-grow p-8">
-      <section class="creation-compte">
-        <h1 class="text-3xl font-bold underline">Hello world!</h1>
-        <h2>Création de Compte</h2>
-        <form action="./index.html" method="post">
-          <fieldset>
-            <legend>Civilité</legend>
-            <div>
-              <input
-                type="radio"
-                id="madame"
-                name="civilite"
-                value="madame"
-                required
-              />
-              <label for="madame">Madame</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="monsieur"
-                name="civilite"
-                value="monsieur"
-              />
-              <label for="monsieur">Monsieur</label>
-            </div>
-            <div>
-              <input type="radio" id="autre" name="civilite" value="autre" />
-              <label for="autre">Autre</label>
+
+    <main class="bg-sky-200 flex-grow p-8">
+      <section
+        class="creation-compte max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg"
+      >
+        <h1 class="text-3xl font-bold text-center mb-6">Création de Compte</h1>
+
+        <form action="./index.html" method="post" class="space-y-4">
+          <fieldset class="border border-gray-300 p-4 rounded-md">
+            <legend class="font-medium text-gray-700 px-1">Civilité</legend>
+
+            <div class="flex space-x-4">
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  id="madame"
+                  name="civilite"
+                  value="madame"
+                  required
+                  class="form-radio text-indigo-600"
+                />
+
+                <label for="madame" class="ml-2 text-gray-700">Madame</label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  id="monsieur"
+                  name="civilite"
+                  value="monsieur"
+                  class="form-radio text-indigo-600"
+                />
+
+                <label for="monsieur" class="ml-2 text-gray-700"
+                  >Monsieur</label
+                >
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  id="autre"
+                  name="civilite"
+                  value="autre"
+                  class="form-radio text-indigo-600"
+                />
+
+                <label for="autre" class="ml-2 text-gray-700">Autre</label>
+              </div>
             </div>
           </fieldset>
 
           <div>
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" name="prenom" required />
+            <label for="prenom" class="block text-sm font-medium text-gray-700"
+              >Prénom :</label
+            >
+
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
           </div>
 
           <div>
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" required />
+            <label for="nom" class="block text-sm font-medium text-gray-700"
+              >Nom :</label
+            >
+
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
           </div>
 
           <div>
-            <label for="adresse">Adresse :</label>
-            <input type="text" id="adresse" name="adresse" required />
+            <label for="adresse" class="block text-sm font-medium text-gray-700"
+              >Adresse :</label
+            >
+
+            <input
+              type="text"
+              id="adresse"
+              name="adresse"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
           </div>
 
           <div>
-            <label for="email">Adresse Email :</label>
-            <input type="email" id="email" name="email" required />
+            <label for="email" class="block text-sm font-medium text-gray-700"
+              >Adresse Email :</label
+            >
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
           </div>
 
           <div>
-            <label for="motdepasse">Mot de passe :</label>
-            <input type="password" id="motdepasse" name="motdepasse" required />
+            <label
+              for="motdepasse"
+              class="block text-sm font-medium text-gray-700"
+              >Mot de passe :</label
+            >
+
+            <input
+              type="password"
+              id="motdepasse"
+              name="motdepasse"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
           </div>
 
           <div>
-            <label for="validation_motdepasse"
+            <label
+              for="validation_motdepasse"
+              class="block text-sm font-medium text-gray-700"
               >Confirmer le mot de passe :</label
             >
+
             <input
               type="password"
               id="validation_motdepasse"
               name="validation_motdepasse"
               required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
 
-          <fieldset>
-            <legend>Vos Passions</legend>
-            <div>
-              <input
-                type="checkbox"
-                id="informatique"
-                name="passion"
-                value="informatique"
-              />
-              <label for="informatique">Informatique</label>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                id="voyages"
-                name="passion"
-                value="voyages"
-              />
-              <label for="voyages">Voyages</label>
-            </div>
-            <div>
-              <input type="checkbox" id="sport" name="passion" value="sport" />
-              <label for="sport">Sport</label>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                id="lecture"
-                name="passion"
-                value="lecture"
-              />
-              <label for="lecture">Lecture</label>
+          <fieldset class="border border-gray-300 p-4 rounded-md">
+            <legend class="font-medium text-gray-700 px-1">Vos Passions</legend>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="informatique"
+                  name="passion"
+                  value="informatique"
+                  class="form-checkbox text-indigo-600 rounded"
+                />
+
+                <label for="informatique" class="ml-2 text-gray-700"
+                  >Informatique</label
+                >
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="voyages"
+                  name="passion"
+                  value="voyages"
+                  class="form-checkbox text-indigo-600 rounded"
+                />
+
+                <label for="voyages" class="ml-2 text-gray-700">Voyages</label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="sport"
+                  name="passion"
+                  value="sport"
+                  class="form-checkbox text-indigo-600 rounded"
+                />
+
+                <label for="sport" class="ml-2 text-gray-700">Sport</label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="lecture"
+                  name="passion"
+                  value="lecture"
+                  class="form-checkbox text-indigo-600 rounded"
+                />
+
+                <label for="lecture" class="ml-2 text-gray-700">Lecture</label>
+              </div>
             </div>
           </fieldset>
 
           <div>
-            <button type="submit">Créer mon compte</button>
+            <button
+              type="submit"
+              class="w-full py-2 px-4 bg-red-700 text-white font-semibold rounded-md shadow-md hover:bg-red-600 transition duration-300"
+            >
+              Créer mon compte
+            </button>
           </div>
         </form>
       </section>
     </main>
+
     <footer class="bg-indigo-700 text-white shadow-lg p-4 flex justify-center">
       <nav class="text-white space-x-6 text-md font-medium">
-        <a href="index.html">Accueil</a>
-        <a href="index.html">Inscription</a>
-        <a href="index.html">Connexion</a>
-        <a href="index.html"> Rechercher</a>
+        <a
+          href="index.html"
+          class="hover:text-indigo-200 transition duration-300"
+          >Accueil</a
+        >
+        <a
+          href="index.html"
+          class="hover:text-indigo-200 transition duration-300"
+          >Inscription</a
+        >
+        <a
+          href="index.html"
+          class="hover:text-indigo-200 transition duration-300"
+          >Connexion</a
+        >
+        <a
+          href="index.html"
+          class="hover:text-indigo-200 transition duration-300"
+        >
+          Rechercher</a
+        >
       </nav>
     </footer>
   </body>
