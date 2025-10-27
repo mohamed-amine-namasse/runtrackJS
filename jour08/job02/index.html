@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <header class="bg-indigo-700 text-white shadow-lg p-4 flex justify-end">
+      <nav class="text-white space-x-6 text-lg font-medium">
+        <a href="#">Accueil</a>
+        <a href="#">Inscription</a>
+        <a href="#">Connexion</a>
+        <a href="#"> Rechercher</a>
+      </nav>
+    </header>
+    <main class="bg-sky-200">
+      <section class="creation-compte">
+        <h1 class="text-3xl font-bold underline">Hello world!</h1>
+        <h2>Création de Compte</h2>
+        <form action="./index.html" method="post">
+          <fieldset>
+            <legend>Civilité</legend>
+            <div>
+              <input
+                type="radio"
+                id="madame"
+                name="civilite"
+                value="madame"
+                required
+              />
+              <label for="madame">Madame</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="monsieur"
+                name="civilite"
+                value="monsieur"
+              />
+              <label for="monsieur">Monsieur</label>
+            </div>
+            <div>
+              <input type="radio" id="autre" name="civilite" value="autre" />
+              <label for="autre">Autre</label>
+            </div>
+          </fieldset>
+
+          <div>
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" name="prenom" required />
+          </div>
+
+          <div>
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required />
+          </div>
+
+          <div>
+            <label for="adresse">Adresse :</label>
+            <input type="text" id="adresse" name="adresse" required />
+          </div>
+
+          <div>
+            <label for="email">Adresse Email :</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <div>
+            <label for="motdepasse">Mot de passe :</label>
+            <input type="password" id="motdepasse" name="motdepasse" required />
+          </div>
+
+          <div>
+            <label for="validation_motdepasse"
+              >Confirmer le mot de passe :</label
+            >
+            <input
+              type="password"
+              id="validation_motdepasse"
+              name="validation_motdepasse"
+              required
+            />
+          </div>
+
+          <fieldset>
+            <legend>Vos Passions</legend>
+            <div>
+              <input
+                type="checkbox"
+                id="informatique"
+                name="passion"
+                value="informatique"
+              />
+              <label for="informatique">Informatique</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                id="voyages"
+                name="passion"
+                value="voyages"
+              />
+              <label for="voyages">Voyages</label>
+            </div>
+            <div>
+              <input type="checkbox" id="sport" name="passion" value="sport" />
+              <label for="sport">Sport</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                id="lecture"
+                name="passion"
+                value="lecture"
+              />
+              <label for="lecture">Lecture</label>
+            </div>
+          </fieldset>
+
+          <div>
+            <button type="submit">Créer mon compte</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="index.html">Inscription</a>
+        <a href="index.html">Connexion</a>
+        <a href="index.html"> Rechercher</a>
+      </nav>
+    </footer>
+  </body>
+</html>
