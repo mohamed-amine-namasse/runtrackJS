@@ -60,24 +60,6 @@ function validateEmail(email) {
     errorElement.textContent = `Nom de domaine incorrect, l'adresse e-mail doit se terminer par ${requiredDomain}.`;
     return;
   }
-  /*
-  // 2. Validation d'unicité CÔTÉ SERVEUR (asynchrone)
-  fetch("/api/check-email", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: email }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.is_unique === false) {
-        errorElement.textContent = "Cet email est déjà utilisé.";
-      }
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la vérification asynchrone:", error);
-      // Afficher une erreur générique si le serveur est injoignable
-      errorElement.textContent = "Erreur de connexion, veuillez réessayer.";
-    });*/
 }
 
 // --- Validation Mot de Passe (Feedback en temps réel - oninput) ---
