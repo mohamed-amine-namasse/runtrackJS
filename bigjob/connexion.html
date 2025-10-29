@@ -56,7 +56,7 @@
             id="email"
             name="email"
             required
-            onblur="validateEmail(this.value)"
+            oninput="validateEmail(this.value)"
           />
         </div>
         <span class="error-message" id="email-error" aria-live="polite"></span>
@@ -68,7 +68,7 @@
             name="password"
             required
             minlength="8"
-            onblur="validatePassword(this.value)"
+            oninput="validatePassword(this.value)"
           />
           <span
             class="error-message"

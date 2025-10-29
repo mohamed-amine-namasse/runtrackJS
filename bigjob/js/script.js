@@ -48,11 +48,16 @@ function validateField(fieldName, value) {
 function validateEmail(email) {
   const errorElement = document.getElementById("email-error");
   errorElement.textContent = ""; // Efface les erreurs précédentes
-
+  const requiredDomain = "@laplateforme.io"; // Le domaine requis
   // 1. Validation de format CÔTÉ CLIENT (rapide)
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     errorElement.textContent = "Veuillez entrer une adresse e-mail valide.";
+    return;
+  }
+
+  if (!email.endsWith(requiredDomain)) {
+    errorElement.textContent = `Nom de domaine incorrect, l'adresse e-mail doit se terminer par ${requiredDomain}.`;
     return;
   }
 
