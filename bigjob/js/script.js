@@ -60,7 +60,7 @@ function validateEmail(email) {
     errorElement.textContent = `Nom de domaine incorrect, l'adresse e-mail doit se terminer par ${requiredDomain}.`;
     return;
   }
-
+  /*
   // 2. Validation d'unicité CÔTÉ SERVEUR (asynchrone)
   fetch("/api/check-email", {
     method: "POST",
@@ -77,7 +77,7 @@ function validateEmail(email) {
       console.error("Erreur lors de la vérification asynchrone:", error);
       // Afficher une erreur générique si le serveur est injoignable
       errorElement.textContent = "Erreur de connexion, veuillez réessayer.";
-    });
+    });*/
 }
 
 // --- Validation Mot de Passe (Feedback en temps réel - oninput) ---
@@ -165,4 +165,63 @@ function validateConfirmPassword(confirmPassword) {
   }
 
   return true;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Récupérer le formulaire de connexion (seulement sur la page connexion.html)
+  const loginForm = document.getElementById("loginForm");
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLogin);
+  }
+});
+
+// Fonction pour gérer la connexion
+async function handleLogin(event) {
+  event.preventDefault(); // Empêche l'envoi du formulaire par défaut
+
+  const emailInput = document.getElementById("email").value;
+  const passwordInput = document.getElementById("password").value;
+  const errorDisplay = document.getElementById("loginError");
+
+  // Cacher l'erreur précédente
+  errorDisplay.classList.add("d-none");
+
+  try {
+    // 2. Tenter de charger les utilisateurs depuis le fichier JSON
+    const response = await fetch("./users.json");
+
+    // Vérifier si le fichier a été trouvé et lu
+    if (!response.ok) {
+      throw new Error(`Erreur de chargement des données : ${response.status}`);
+    }
+
+    const users = await response.json();
+
+    // 3. Chercher l'utilisateur correspondant (email et mot de passe)
+    const userFound = users.find(
+      (user) => user.email === emailInput && user.password === passwordInput
+    );
+
+    if (userFound) {
+      // 4. CONNEXION RÉUSSIE : Redirection
+      console.log("Connexion réussie pour:", userFound.email);
+
+      // Stocker l'information de l'utilisateur (facultatif mais recommandé)
+      // localStorage.setItem('currentUser', JSON.stringify(userFound));
+
+      // Redirection vers la page calendrier
+      window.location.href = "calendrier.html";
+    } else {
+      // 5. CONNEXION ÉCHOUÉE : Afficher un message d'erreur
+      errorDisplay.textContent = "Email ou mot de passe incorrect.";
+      errorDisplay.classList.remove("d-none");
+    }
+  } catch (error) {
+    // Gérer les erreurs de réseau ou de parsing JSON
+    console.error("Erreur de connexion:", error);
+    errorDisplay.textContent =
+      "Une erreur est survenue lors de la vérification. Veuillez réessayer.";
+    errorDisplay.classList.remove("d-none");
+  }
 }
