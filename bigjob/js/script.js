@@ -120,3 +120,49 @@ function validatePassword(password) {
 
   return true;
 }
+// --- Validation Mot de Passe (Feedback en temps réel - oninput) ---
+function validateConfirmPassword(confirmPassword) {
+  displayError("confirm_password", ""); // Efface les erreurs précédentes
+
+  // 1. VÉRIFICATION DU CHAMP VIDE
+  if (confirmPassword.length === 0) {
+    displayError(
+      "confirm_password",
+      "La confirmation de mot de passe est obligatoire."
+    );
+    return false;
+  }
+
+  // 2. VÉRIFICATION DE LA COMPLEXITÉ
+  let errors = [];
+
+  // Longueur minimale
+  if (confirmPassword.length < 8) {
+    errors.push("8 caractères minimum");
+  }
+  // Majuscule
+  if (!/[A-Z]/.test(confirmPassword)) {
+    errors.push("une majuscule");
+  }
+  // Chiffre
+  if (!/[0-9]/.test(confirmPassword)) {
+    errors.push("un chiffre");
+  }
+  // Symbole/Caractère spécial
+  // Rejette les lettres, chiffres et espaces pour identifier un caractère spécial
+  if (!/[^A-Za-z0-9\s]/.test(confirmPassword)) {
+    errors.push("un caractère spécial");
+  }
+
+  if (errors.length > 0) {
+    // Affiche un message d'erreur clair si des règles ne sont pas respectées
+    const required = errors.join(", ");
+    displayError(
+      "confirm_password",
+      `Le mot de passe doit contenir : ${required}.`
+    );
+    return false;
+  }
+
+  return true;
+}
