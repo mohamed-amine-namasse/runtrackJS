@@ -1,0 +1,6 @@
+/* Style spécifique pour le titre dans la barre de navigation */
+#title {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.8rem;
+  color: rgb(0, 89, 255);
+}
