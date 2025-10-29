@@ -59,7 +59,7 @@
             required
             minlength="5"
             maxlength="50"
-            onblur="validateField('nom', this.value)"
+            oninput="validateField('nom', this.value)"
           />
           <span class="error-message" id="nom-error" aria-live="polite"></span>
         </div>
@@ -73,7 +73,7 @@
             required
             minlength="2"
             maxlength="50"
-            onblur="validateField('prenom', this.value)"
+            oninput="validateField('prenom', this.value)"
           />
           <span
             class="error-message"
