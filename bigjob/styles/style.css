@@ -10,8 +10,9 @@ form {
   margin: 0 auto;
   margin-top: 40px;
   padding: 20px;
-  border: 1px solid gray;
+  border: 1px solid black;
   border-radius: 5px;
+  background-color: whitesmoke;
 }
 label {
   display: block;
@@ -28,7 +29,7 @@ input {
   border-radius: 4px;
   box-sizing: border-box;
 }
-h2 {
+h3 {
   font-family: "Trebuchet MS", sans-serif;
 }
 
