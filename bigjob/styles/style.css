@@ -13,7 +13,7 @@
   height: fit-content;
   border-radius: 20px;
   position: absolute;
-  top: 160px;
+  top: 140px;
   padding-top: 20px;
   padding-bottom: 30px;
   width: 350px;
@@ -50,7 +50,7 @@ h3 {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.formulaire {
+.container_main {
   display: flex;
   justify-content: center;
 }
