@@ -17,6 +17,7 @@
   padding-top: 20px;
   padding-bottom: 30px;
   width: 350px;
+  margin-top: 50px;
 }
 form input {
   height: 25px;
@@ -49,11 +50,11 @@ h3 {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-main {
+.formulaire {
   display: flex;
   justify-content: center;
-  padding-top: 80px;
-  padding-right: 5%;
-  padding-left: 5%;
-  min-height: calc(100vh - 90px);
+}
+
+.error-message {
+  color: red;
 }
