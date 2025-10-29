@@ -18,7 +18,7 @@ label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  font-family: "Trebuchet MS", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 input {
@@ -30,7 +30,7 @@ input {
   box-sizing: border-box;
 }
 h3 {
-  font-family: "Trebuchet MS", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container_main {

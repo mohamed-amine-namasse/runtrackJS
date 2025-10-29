@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "nom": "Jackson",
+      "prenom": "Jack",
+      "email": "jackson@yahoo.com"
+    },
+    {
+      "id": 2,
+      "nom": "Marley",
+      "prenom": "Bob",
+      "email": "bob.marley@yahoo.com"
+    },
+    {
+      "id": 3,
+      "nom": "Lebron",
+      "prenom": "James",
+      "email": "Lbjames@yahoo.com"
+    }
+  ]
+}
