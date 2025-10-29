@@ -4,3 +4,56 @@
   font-size: 1.8rem;
   color: rgb(0, 89, 255);
 }
+.container_form {
+  background-color: rgba(255, 255, 255, 0.5);
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  border: green 1px solid;
+  height: fit-content;
+  border-radius: 20px;
+  position: absolute;
+  top: 200px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  width: 30vw;
+}
+form input {
+  height: 25px;
+  margin-left: 1%;
+  width: 90%;
+  margin-bottom: 10px;
+}
+form label {
+  margin-left: 1%;
+}
+h2 {
+  text-align: center;
+}
+.bouton_submit {
+  height: 40px;
+  width: fit-content;
+  margin: auto;
+  padding: 5px;
+  color: white;
+  background-color: green;
+  border: none;
+  border-radius: 3px;
+}
+.bouton_submit:hover {
+  background-color: rgb(52, 145, 52);
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+main {
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+  padding-right: 5%;
+  padding-left: 5%;
+  min-height: calc(100vh - 90px);
+}
