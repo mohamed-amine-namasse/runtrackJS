@@ -4,7 +4,7 @@ function displayError(fieldId, message) {
   errorElement.textContent = message;
 }
 
-// --- 1. Validation Générique (Nom, Prénom, Adresse, Code Postal) ---
+// --- 1. Validation Générique (Nom, Prénom, Adresse) ---
 function validateField(fieldName, value) {
   displayError(fieldName, ""); // Efface les erreurs précédentes
 
@@ -37,17 +37,6 @@ function validateField(fieldName, value) {
       displayError(
         fieldName,
         `Le ${fieldName} ne doit contenir que des lettres, espaces, traits d'union et apostrophes.`
-      );
-      return false;
-    }
-  }
-
-  // B. Validation pour Adresse (longueur minimale)
-  if (fieldName === "adresse") {
-    if (cleanedValue.length < 5) {
-      displayError(
-        fieldName,
-        "L'adresse est trop courte. Veuillez entrer l'adresse complète."
       );
       return false;
     }
