@@ -335,19 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Clé pour stocker les demandes de présence dans localStorage
-const PRESENCE_STORAGE_KEY = "userPresenceRequests";
-
-// Récupère les demandes stockées ou initialise un objet vide.
-function getPresenceRequests() {
-  const storedRequests = localStorage.getItem(PRESENCE_STORAGE_KEY);
-  return storedRequests ? JSON.parse(storedRequests) : {};
-}
-
-// Sauvegarde l'état actuel des demandes.
-function savePresenceRequests(requests) {
-  localStorage.setItem(PRESENCE_STORAGE_KEY, JSON.stringify(requests));
-}
 /**
  * Génère le calendrier pour le mois et l'année en cours.
  * @param {Date} targetDate - Le mois et l'année à afficher.
@@ -367,7 +354,7 @@ function renderCalendar(targetDate) {
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
   // Récupérer l'état actuel de l'utilisateur
-  const presenceRequests = getPresenceRequests();
+  const presenceRequests = getUserRequests();
 
   // Titre du mois
   const monthName = targetDate.toLocaleString("fr-FR", {
@@ -432,13 +419,13 @@ function renderCalendar(targetDate) {
     // === NOUVEAU CODE POUR GÉRER ACCEPTÉ/REFUSÉ ===
     else if (requestState === ACCEPTED_STATUS) {
       // Utiliser la constante ACCEPTED_STATUS
-      buttonClass = "btn-success disabled";
+      buttonClass = "btn-warning disabled";
       buttonText = "Accepté";
       cellClass = "day-accepted";
       isDisabled = "disabled";
     } else if (requestState === REFUSED_STATUS) {
       // Utiliser la constante REFUSED_STATUS
-      buttonClass = "btn-danger disabled";
+      buttonClass = "btn-dark disabled";
       buttonText = "Refusé";
       cellClass = "day-refused";
       isDisabled = "disabled";
