@@ -190,14 +190,14 @@ async function handleLogin(event) {
       // 4. CONNEXION RÉUSSIE : Redirection
       console.log("Connexion réussie pour:", userFound.email);
 
-      // STOCKAGE DU RÔLE (MODIFICATION CLÉ) :
+      // STOCKAGE DU RÔLE  :
       // Utilisation de localStorage pour garder l'état de connexion et le rôle même après rafraîchissement
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userRole", userFound.role); // <-- NOUVEAU : Stocke le rôle
       localStorage.setItem("userEmail", userFound.email);
 
-      // Redirection vers la page calendrier
-      window.location.href = "calendrier.html";
+      // Redirection vers la page d'acceuil
+      window.location.href = "index.html";
     } else {
       // 5. CONNEXION ÉCHOUÉE : Afficher un message d'erreur
       errorDisplay.textContent = "Email ou mot de passe incorrect.";
@@ -473,18 +473,17 @@ function updateNavLinks() {
   const navBarNav = document
     .getElementById("navbarNavAltMarkup")
     .querySelector(".navbar-nav");
-  const backofficeLink = document.getElementById("nav-backoffice");
 
-  // Ancien code : Récupération des liens Connexion/Inscription (sera masqué/remplacé)
+  // Récupérer les liens existants
+  const accueilLink = document.querySelector('a[href="index.html"]');
   const connexionLink = document.querySelector('a[href="connexion.html"]');
   const inscriptionLink = document.querySelector('a[href="inscription.html"]');
-
-  // NOUVEAU : Récupération ou création du lien de déconnexion
+  let calendarLink = document.querySelector('a[href="calendrier.html"]');
+  const backofficeLink = document.getElementById("nav-backoffice");
   let logoutLink = document.getElementById("nav-logout");
 
   // Récupérer le rôle et l'état de connexion depuis localStorage
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  // ... le reste du code de récupération de rôle ...
   const userRole = localStorage.getItem("userRole");
 
   // --- GESTION DU LIEN DE DÉCONNEXION ---
@@ -492,6 +491,13 @@ function updateNavLinks() {
     // Utilisateur connecté : masquer Connexion/Inscription
     if (connexionLink) connexionLink.style.display = "none";
     if (inscriptionLink) inscriptionLink.style.display = "none";
+
+    // GESTION DU LIEN CALENDRIER (MODIFICATION CLÉ)
+    if (calendarLink) {
+      // Le calendrier est désormais accessible dès qu'on est connecté
+      calendarLink.classList.remove("disabled");
+      calendarLink.style.display = "block";
+    }
 
     // Si le lien de déconnexion n'existe pas, le créer et l'ajouter
     if (!logoutLink) {
@@ -528,6 +534,10 @@ function updateNavLinks() {
     // Masquer le lien de déconnexion s'il existe
     if (logoutLink) {
       logoutLink.style.display = "none";
+    }
+    // S'assurer que le lien Calendrier est désactivé si non connecté
+    if (calendarLink) {
+      calendarLink.classList.add("disabled");
     }
   }
 }
