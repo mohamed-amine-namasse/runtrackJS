@@ -314,14 +314,29 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.includes("backoffice.html")) {
     console.log("--- Page Backoffice détectée ---");
     const backofficeContainer = document.getElementById("backoffice-container");
+    const adminModoSection = document.getElementById("admin-moderator-section"); // Récupérer la nouvelle section
     const userRole = localStorage.getItem("userRole");
 
+    // Logique de masquage de la liste Admin/Modérateur par défaut
+    if (adminModoSection) {
+      adminModoSection.style.display = "none"; // Masquer par défaut
+    }
     if (backofficeContainer) {
       if (userRole === "admin" || userRole === "moderator") {
         console.log(
           "--- Utilisateur Admin/Modérateur. Affichage des demandes. ---"
         );
         displayBackofficeRequests();
+        // --- LOGIQUE SPÉCIFIQUE ADMIN POUR LA LISTE ---
+        if (userRole === "admin") {
+          if (adminModoSection) {
+            console.log(
+              "--- Utilisateur est ADMIN. Affichage de la liste Admin/Modo. ---"
+            );
+            adminModoSection.style.display = "block"; // Afficher la section
+            loadAdminModeratorList(); // Charger les données depuis users.json
+          }
+        }
       } else {
         console.warn("--- Utilisateur non autorisé. Bloqué. ---");
         backofficeContainer.innerHTML =
@@ -815,4 +830,115 @@ function getUserRequests() {
   }
   // Si l'utilisateur n'est pas identifié ou pas un user standard, on retourne vide.
   return {};
+}
+
+/**
+ * Charge la liste des administrateurs et modérateurs en lisant le fichier users.json.
+ * Cette fonction ne devrait être appelée que si l'utilisateur est 'admin'.
+ */
+async function loadAdminModeratorList() {
+  console.log(
+    "Tentative de chargement de la liste Admin/Modérateur avec actions..."
+  );
+  const container = document.getElementById("admin-moderator-list-container");
+
+  if (!container) {
+    console.error(
+      "Le conteneur de la liste admins/modos est manquant dans le HTML."
+    );
+    return;
+  }
+
+  try {
+    // --- 1. CHARGEMENT ET FILTRAGE DES DONNÉES ---
+    const response = await fetch("./users.json");
+
+    if (!response.ok) {
+      throw new Error(
+        `Erreur de chargement des données utilisateurs: ${response.status}`
+      );
+    }
+
+    // Nous lisons TOUS les utilisateurs, car les utilisateurs non privilégiés sont nécessaires pour l'ajout
+    const users = await response.json();
+
+    // On filtre seulement pour afficher les admins/modérateurs
+    const privilegedUsers = users.filter(
+      (user) => user.role === "admin" || user.role === "moderator"
+    );
+
+    // --- 2. CONSTRUCTION DU BOUTON AJOUTER ---
+    let htmlContent = `
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h4">Gestion des privilèges</h3>
+                <button 
+                    class="btn btn-primary" 
+                    id="addUserPrivilegeBtn" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addUserModal"
+                >
+                    Ajouter un utilisateur
+                </button>
+            </div>
+        `;
+
+    if (privilegedUsers.length === 0) {
+      htmlContent +=
+        '<div class="alert alert-info">Aucun administrateur ou modérateur trouvé.</div>';
+      container.innerHTML = htmlContent;
+      return;
+    }
+
+    // --- 3. GÉNÉRATION DU HTML DU TABLEAU AVEC BOUTONS D'ACTION ---
+    htmlContent +=
+      '<table class="table table-striped table-bordered table-hover mt-3">';
+    htmlContent +=
+      "<thead><tr><th>Email</th><th>Rôle</th><th>Actions</th></tr></thead>";
+    htmlContent += "<tbody>";
+
+    privilegedUsers.forEach((user) => {
+      const badgeClass =
+        user.role === "admin" ? "text-bg-danger" : "text-bg-primary";
+
+      // L'administrateur NE DOIT PAS POUVOIR se supprimer lui-même (sauf si c'est géré côté serveur)
+      const currentUserEmail = localStorage.getItem("userEmail");
+      const isSelf = user.email === currentUserEmail;
+
+      // Le bouton Supprimer est grisé si l'utilisateur essaie de se supprimer
+      const deleteButton = `
+                <button 
+                    class="btn btn-sm btn-danger" 
+                    onclick="handleDeleteUser('${user.email}')"
+                    ${
+                      isSelf
+                        ? 'disabled title="Vous ne pouvez pas vous retirer vos propres privilèges."'
+                        : ""
+                    }
+                >
+                    Supprimer
+                </button>
+            `;
+
+      htmlContent += `
+                <tr id="user-row-${user.email.replace(
+                  /[^a-zA-Z0-9]/g,
+                  "-"
+                )}" class="${isSelf ? "table-warning" : ""}">
+                    <td>${user.email}</td>
+                    <td><span class="badge ${badgeClass}">${user.role.toUpperCase()}</span></td>
+                    <td>${deleteButton}</td>
+                </tr>
+            `;
+    });
+
+    htmlContent += "</tbody></table>";
+    container.innerHTML = htmlContent;
+  } catch (error) {
+    console.error(
+      "Erreur lors du chargement ou du traitement des utilisateurs:",
+      error
+    );
+    container.innerHTML =
+      '<div class="alert alert-danger">Erreur critique : Impossible de charger la liste des utilisateurs.</div>';
+  }
 }
