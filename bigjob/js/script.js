@@ -492,11 +492,16 @@ function updateNavLinks() {
     if (connexionLink) connexionLink.style.display = "none";
     if (inscriptionLink) inscriptionLink.style.display = "none";
 
-    // GESTION DU LIEN CALENDRIER (MODIFICATION CLÉ)
+    // GESTION DU LIEN CALENDRIER (MODIFICATION CLÉ ICI)
     if (calendarLink) {
-      // Le calendrier est désormais accessible dès qu'on est connecté
-      calendarLink.classList.remove("disabled");
-      calendarLink.style.display = "block";
+      if (userRole === "admin" || userRole === "moderator") {
+        // Masquer le Calendrier pour les rôles administratifs
+        calendarLink.style.display = "none";
+      } else {
+        // Afficher le Calendrier pour les utilisateurs standards (user)
+        calendarLink.classList.remove("disabled");
+        calendarLink.style.display = "block";
+      }
     }
 
     // Si le lien de déconnexion n'existe pas, le créer et l'ajouter
