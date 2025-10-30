@@ -377,12 +377,12 @@ function renderCalendar(targetDate) {
       dayDate < today && dayDate.toDateString() !== today.toDateString();
     const requestState = presenceRequests[fullDate] || "none"; // 'none', 'requested'
 
-    let buttonClass = "btn-secondary";
+    let buttonClass = "btn-success";
     let buttonText = "Demander";
     let cellClass = "";
 
     if (isPast) {
-      buttonClass = "btn-dark disabled";
+      buttonClass = "btn-danger disabled";
       buttonText = "Passé";
       cellClass = "day-past";
     } else if (requestState === "requested") {
@@ -434,7 +434,7 @@ function handlePresenceToggle(event) {
   if (requests[date] === "requested") {
     delete requests[date]; // Annuler la demande
     message = `Demande de présence annulée pour le ${date}.`;
-    button.className = "btn btn-sm btn-secondary presence-toggle";
+    button.className = "btn btn-sm btn-success presence-toggle";
     button.textContent = "Demander";
   } else {
     requests[date] = "requested"; // Faire une demande
