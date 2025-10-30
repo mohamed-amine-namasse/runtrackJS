@@ -601,51 +601,7 @@ const ACCEPTED_STATUS = "demande acceptée";
 const REFUSED_STATUS = "refusée";
 const PENDING_STATUS = "requested";
 const BASE_STORAGE_KEY = "presenceRequests_";
-/**
- * Récupère TOUTES les demandes de TOUS les utilisateurs du localStorage.
- * Chaque demande est transformée en objet { date, status, userEmail }.
- */
-/*function getAllRequestsForAdmin() {
-  let allRequests = [];
 
-  // 1. Parcourir toutes les clés du localStorage
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-
-    // 2. Filtrer uniquement les clés de demandes de présence
-    if (key.startsWith(BASE_STORAGE_KEY)) {
-      const userEmail = key.substring(BASE_STORAGE_KEY.length);
-
-      try {
-        const userRequests = JSON.parse(localStorage.getItem(key));
-
-        // 3. Parcourir les demandes de cet utilisateur
-        Object.keys(userRequests).forEach((date) => {
-          const status = userRequests[date];
-
-          // 4. Stocker la demande avec l'email de l'utilisateur
-          allRequests.push({
-            date,
-            status,
-            userEmail,
-          });
-        });
-      } catch (e) {
-        console.error(
-          "Erreur de parsing des données pour l'utilisateur:",
-          userEmail,
-          e
-        );
-      }
-    }
-  }
-  return allRequests;
-}
-*/
-/**
- * Récupère TOUTES les demandes de TOUS les utilisateurs du localStorage.
- * Chaque demande est transformée en objet { date, status, userEmail }.
- */
 function getAllRequestsForAdmin() {
   let allRequests = [];
 
