@@ -4,7 +4,7 @@ function displayError(fieldId, message) {
   errorElement.textContent = message;
 }
 
-// --- 1. Validation Générique (Nom, Prénom, Adresse) ---
+// --- 1. Validation Générique (Nom, Prénom) ---
 function validateField(fieldName, value) {
   displayError(fieldName, ""); // Efface les erreurs précédentes
 
@@ -190,9 +190,11 @@ async function handleLogin(event) {
       // 4. CONNEXION RÉUSSIE : Redirection
       console.log("Connexion réussie pour:", userFound.email);
 
-      // Stocker l'information de succès dans sessionStorage
-      sessionStorage.setItem("loginSuccess", "true");
-      sessionStorage.setItem("userEmail", userFound.email); // Optionnel: stocker l'email pour le message
+      // STOCKAGE DU RÔLE (MODIFICATION CLÉ) :
+      // Utilisation de localStorage pour garder l'état de connexion et le rôle même après rafraîchissement
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userRole", userFound.role); // <-- NOUVEAU : Stocke le rôle
+      localStorage.setItem("userEmail", userFound.email);
 
       // Redirection vers la page calendrier
       window.location.href = "calendrier.html";
@@ -248,13 +250,24 @@ function displayAlert(message, duration = 3000) {
 }
 
 function checkLoginAlert() {
-  const loginSuccess = sessionStorage.getItem("loginSuccess");
-  const userEmail = sessionStorage.getItem("userEmail"); // Récupère l'email stocké
+  // Ancien code avec sessionStorage à enlever :
+  // const loginSuccess = sessionStorage.getItem("loginSuccess");
+  // const userEmail = sessionStorage.getItem("userEmail");
 
-  if (loginSuccess === "true") {
-    // 1. IMPORTANT : Effacer la variable pour que l'alerte ne s'affiche qu'une seule fois
-    sessionStorage.removeItem("loginSuccess");
-    sessionStorage.removeItem("userEmail");
+  // NOUVEAU CODE : Utilisation de localStorage (ou gardez sessionStorage si c'est ce qui est attendu)
+  const loginSuccess = localStorage.getItem("isLoggedIn");
+  const userEmail = localStorage.getItem("userEmail");
+
+  // IMPORTANT : Nous n'effaçons plus userEmail et isLoggedIn,
+  // car ils sont utilisés par le nouveau code pour gérer l'état de connexion.
+
+  // Pour que l'alerte ne s'affiche qu'une fois après la connexion,
+  // nous allons stocker un flag spécifique.
+  const hasAlerted = sessionStorage.getItem("hasAlerted");
+
+  if (loginSuccess === "true" && !hasAlerted) {
+    // Mettre un flag pour ne plus afficher l'alerte
+    sessionStorage.setItem("hasAlerted", "true");
 
     // 2. Préparer le message
     const message = userEmail
@@ -276,7 +289,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginForm) {
     loginForm.addEventListener("submit", handleLogin);
   }
-
+  // Nouvelle étape : Mise à jour de la barre de navigation
+  updateNavLinks();
+  // ===========================================
+  // NOUVEAU : Écouteur pour le lien de déconnexion
+  // ===========================================
+  const logoutLink = document.getElementById("nav-logout");
+  if (logoutLink) {
+    logoutLink.addEventListener("click", handleLogout);
+  }
+  // ===========================================
   // 2. Vérifier si on est sur la page calendrier.html et si une connexion a eu lieu
   // Cette fonction s'exécutera sur TOUTES les pages, mais agira seulement sur calendrier.html
   // après une connexion, grâce à la vérification de sessionStorage.
@@ -445,4 +467,91 @@ function handlePresenceToggle(event) {
 
   savePresenceRequests(requests);
   displayAlert(message, 4000);
+}
+
+function updateNavLinks() {
+  const navBarNav = document
+    .getElementById("navbarNavAltMarkup")
+    .querySelector(".navbar-nav");
+  const backofficeLink = document.getElementById("nav-backoffice");
+
+  // Ancien code : Récupération des liens Connexion/Inscription (sera masqué/remplacé)
+  const connexionLink = document.querySelector('a[href="connexion.html"]');
+  const inscriptionLink = document.querySelector('a[href="inscription.html"]');
+
+  // NOUVEAU : Récupération ou création du lien de déconnexion
+  let logoutLink = document.getElementById("nav-logout");
+
+  // Récupérer le rôle et l'état de connexion depuis localStorage
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  // ... le reste du code de récupération de rôle ...
+  const userRole = localStorage.getItem("userRole");
+
+  // --- GESTION DU LIEN DE DÉCONNEXION ---
+  if (isLoggedIn) {
+    // Utilisateur connecté : masquer Connexion/Inscription
+    if (connexionLink) connexionLink.style.display = "none";
+    if (inscriptionLink) inscriptionLink.style.display = "none";
+
+    // Si le lien de déconnexion n'existe pas, le créer et l'ajouter
+    if (!logoutLink) {
+      logoutLink = document.createElement("a");
+      logoutLink.className = "nav-link";
+      logoutLink.href = "#"; // Empêche la redirection par défaut
+      logoutLink.id = "nav-logout";
+      logoutLink.textContent = "Se déconnecter";
+
+      navBarNav.appendChild(logoutLink);
+    }
+
+    // S'assurer qu'il est visible
+    logoutLink.style.display = "block";
+
+    // ATTENTION : L'écouteur doit être attaché MAINTENANT
+    // (voir étape C. Attachement de l'écouteur de déconnexion)
+
+    // Afficher le lien Backoffice si l'utilisateur est admin OU modérateur
+    if (backofficeLink) {
+      // J'ai mis à jour cette condition pour inclure les modérateurs comme demandé précédemment
+      if (userRole === "admin" || userRole === "moderator") {
+        backofficeLink.style.display = "block";
+      } else {
+        backofficeLink.style.display = "none";
+      }
+    }
+  } else {
+    // Utilisateur déconnecté : afficher Connexion/Inscription, masquer Déconnexion et Backoffice
+    if (connexionLink) connexionLink.style.display = "block";
+    if (inscriptionLink) inscriptionLink.style.display = "block";
+    if (backofficeLink) backofficeLink.style.display = "none";
+
+    // Masquer le lien de déconnexion s'il existe
+    if (logoutLink) {
+      logoutLink.style.display = "none";
+    }
+  }
+}
+
+// ===================================
+// FONCTION DE DÉCONNEXION
+// ===================================
+function handleLogout(event) {
+  event.preventDefault(); // Empêche le comportement par défaut du lien
+
+  // 1. Suppression de toutes les clés de connexion de localStorage
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("userEmail");
+
+  // 2. Suppression des flags d'alerte de sessionStorage
+  sessionStorage.removeItem("hasAlerted");
+
+  // 3. (Optionnel) Afficher une alerte de déconnexion
+  displayAlert("Vous avez été déconnecté avec succès.", 3000);
+
+  // 4. Redirection vers la page d'accueil ou de connexion
+  // On attend un court instant pour laisser l'alerte s'afficher
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 2000); // 2s d'attente pour la transition de l'alerte
 }
