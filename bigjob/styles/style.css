@@ -97,6 +97,7 @@ body {
   background-color: #6c757d; /* Gris foncé */
   color: white;
   border-radius: 5px;
+  margin-bottom: 5px;
 }
 
 .day {
