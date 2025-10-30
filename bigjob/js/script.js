@@ -577,3 +577,145 @@ function handleLogout(event) {
     window.location.href = "index.html";
   }, 2000); // 2s d'attente pour la transition de l'alerte
 }
+
+// Les statuts après traitement
+const ACCEPTED_STATUS = "demande acceptée";
+const REFUSED_STATUS = "refusée";
+const PENDING_STATUS = "requested";
+
+// 1. Fonction pour générer et afficher le tableau
+function displayBackofficeRequests() {
+  const requests = getPresenceRequests();
+  const pendingContainer = document.getElementById("requests-table-container");
+  const processedContainer = document.getElementById(
+    "processed-requests-table-container"
+  );
+
+  let pendingRequests = [];
+  let processedRequests = [];
+
+  // --- SÉPARATION DES DEMANDES EN UN SEUL PASSAGE ---
+  // Les deux tableaux contiennent des objets { date, status }
+  Object.keys(requests).forEach((date) => {
+    const status = requests[date];
+
+    if (status === PENDING_STATUS) {
+      pendingRequests.push({ date, status });
+    } else if (status === ACCEPTED_STATUS || status === REFUSED_STATUS) {
+      processedRequests.push({ date, status });
+    }
+  });
+
+  // --- Génération de la table des Demandes en Attente ---
+  if (pendingRequests.length === 0) {
+    pendingContainer.innerHTML =
+      '<div class="alert alert-success">Aucune demande de présence en attente de modération.</div>';
+  } else {
+    pendingContainer.innerHTML = generateTableHtml(pendingRequests, "pending");
+  }
+
+  // --- Génération de la table des Demandes Traitées ---
+  if (processedRequests.length === 0) {
+    processedContainer.innerHTML =
+      '<div class="alert alert-info">Aucune demande n\'a encore été acceptée ou refusée.</div>';
+  } else {
+    processedContainer.innerHTML = generateTableHtml(
+      processedRequests,
+      "processed"
+    );
+  }
+}
+
+// 2. Fonction pour Accepter une demande
+function handleAccept(date) {
+  let requests = getPresenceRequests();
+
+  // Mettre à jour le statut dans les données
+  requests[date] = ACCEPTED_STATUS; // Nouveau statut
+  savePresenceRequests(requests);
+
+  // Mettre à jour l'affichage et informer l'utilisateur
+  displayBackofficeRequests(); // Rafraîchit le tableau
+
+  displayAlert("La demande de présence a été accepté avec succès.", 3000);
+}
+
+// 3. Fonction pour Refuser une demande
+function handleRefuse(date) {
+  let requests = getPresenceRequests();
+
+  // Mettre à jour le statut dans les données
+  requests[date] = REFUSED_STATUS; // Nouveau statut
+  savePresenceRequests(requests);
+
+  // Mettre à jour l'affichage et informer l'utilisateur
+  displayBackofficeRequests(); // Rafraîchit le tableau
+  displayAlert("La demande de présence a été refusé avec succès.", 3000);
+}
+
+// 4. Lancement de la fonction au chargement de la page si nous sommes sur backoffice.html
+// Cette vérification est essentielle si script.js est utilisé sur plusieurs pages.
+if (window.location.pathname.includes("backoffice.html")) {
+  document.addEventListener("DOMContentLoaded", displayBackofficeRequests);
+}
+
+/**
+ * Génère le code HTML d'un tableau pour un ensemble de demandes.
+ * @param {Array<object>} dataArray - Tableau d'objets {date, status}.
+ * @param {string} type - 'pending' ou 'processed'.
+ * @returns {string} Le code HTML du tableau.
+ */
+function generateTableHtml(dataArray, type) {
+  let htmlContent = `
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date de la Demande</th>
+                    <th>Statut</th>
+                    ${type === "pending" ? "<th>Actions</th>" : ""}
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+  dataArray.forEach((request) => {
+    const date = request.date;
+    const status = request.status;
+    let statusBadge = "";
+    let actions = "";
+
+    // Détermination du badge et des actions
+    if (status === PENDING_STATUS) {
+      statusBadge = '<span class="badge text-bg-warning">En Attente</span>';
+      actions = `
+                <button class="btn btn-sm btn-success me-2" onclick="handleAccept('${date}')">
+                    Accepter
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="handleRefuse('${date}')">
+                    Refuser
+                </button>
+            `;
+    } else if (status === ACCEPTED_STATUS) {
+      statusBadge =
+        '<span class="badge text-bg-success">Demande Acceptée</span>';
+      actions = "";
+    } else if (status === REFUSED_STATUS) {
+      statusBadge = '<span class="badge text-bg-danger">Refusée</span>';
+      actions = "";
+    }
+
+    htmlContent += `
+            <tr id="request-${date}">
+                <td>${date}</td>
+                <td>${statusBadge}</td>
+                ${type === "pending" ? `<td>${actions}</td>` : ""}
+            </tr>
+        `;
+  });
+
+  htmlContent += `
+            </tbody>
+        </table>
+    `;
+  return htmlContent;
+}
