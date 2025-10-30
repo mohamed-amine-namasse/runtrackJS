@@ -452,7 +452,7 @@ function renderCalendar(targetDate) {
                 <button 
                     class="btn btn-sm ${buttonClass} presence-toggle" 
                     data-date="${fullDate}" 
-                    ${isDisabled} // <-- UTILISER LA NOUVELLE VARIABLE
+                    ${isDisabled} 
                 >
                     ${buttonText}
                 </button>
