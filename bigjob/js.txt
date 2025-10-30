@@ -150,6 +150,15 @@ function validateConfirmPassword(confirmPassword) {
   return true;
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Récupérer le formulaire de connexion (seulement sur la page connexion.html)
+  const loginForm = document.getElementById("loginForm");
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLogin);
+  }
+});
+
 // Fonction pour gérer la connexion
 async function handleLogin(event) {
   event.preventDefault(); // Empêche l'envoi du formulaire par défaut
@@ -270,67 +279,43 @@ function checkLoginAlert() {
   }
 }
 // ===================================
-// ÉCOUTEUR GLOBAL DOMContentLoaded (VERSION SÉCURISÉE)
+// ÉCOUTEUR GLOBAL DOMContentLoaded
 // ===================================
-document.addEventListener("DOMContentLoaded", () => {
-  // Log de vérification (pour s'assurer que DOMContentLoaded s'exécute)
-  console.log("--- DOMContentLoaded lancé ---");
 
-  // 1. Initialisation des formulaires de connexion (si sur connexion.html)
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Récupérer le formulaire de connexion (seulement sur la page connexion.html)
   const loginForm = document.getElementById("loginForm");
+
   if (loginForm) {
     loginForm.addEventListener("submit", handleLogin);
   }
-
-  // 2. Mise à jour des liens de navigation
+  // Nouvelle étape : Mise à jour de la barre de navigation
   updateNavLinks();
-
-  // 3. Écouteur de déconnexion (nécessaire après updateNavLinks)
+  // ===========================================
+  // NOUVEAU : Écouteur pour le lien de déconnexion
+  // ===========================================
   const logoutLink = document.getElementById("nav-logout");
   if (logoutLink) {
     logoutLink.addEventListener("click", handleLogout);
   }
-
-  // 4. Affichage de l'alerte de connexion
+  // ===========================================
+  // 2. Vérifier si on est sur la page calendrier.html et si une connexion a eu lieu
+  // Cette fonction s'exécutera sur TOUTES les pages, mais agira seulement sur calendrier.html
+  // après une connexion, grâce à la vérification de sessionStorage.
   checkLoginAlert();
-
   // ===============================================
-  // *** GESTION DES PAGES SPÉCIFIQUES ***
+  // *** NOUVEAU : Initialisation du Calendrier ***
   // ===============================================
+  const container = document.querySelector(".container");
+  // On assume que le calendrier est la fonctionnalité principale de cette page
+  if (container && window.location.pathname.includes("calendrier.html")) {
+    // Afficher le calendrier pour le mois en cours
+    renderCalendar(new Date());
 
-  // GESTION CALENDRIER
-  if (window.location.pathname.includes("calendrier.html")) {
-    const container = document.querySelector(".container");
-    if (container) {
-      renderCalendar(new Date());
-      const h1Title = document.querySelector("h1");
-      if (h1Title) {
-        h1Title.textContent = "Calendrier des Présences";
-      }
-    }
-  }
-
-  // GESTION BACKOFFICE (L'APPEL CRITIQUE)
-  if (window.location.pathname.includes("backoffice.html")) {
-    console.log("--- Page Backoffice détectée ---");
-    const backofficeContainer = document.getElementById("backoffice-container");
-    const userRole = localStorage.getItem("userRole");
-
-    if (backofficeContainer) {
-      if (userRole === "admin" || userRole === "moderator") {
-        console.log(
-          "--- Utilisateur Admin/Modérateur. Affichage des demandes. ---"
-        );
-        displayBackofficeRequests();
-      } else {
-        console.warn("--- Utilisateur non autorisé. Bloqué. ---");
-        backofficeContainer.innerHTML =
-          '<div class="alert alert-danger">Accès non autorisé. Veuillez vous connecter avec un compte admin ou modérateur.</div>';
-      }
-    } else {
-      console.error(
-        "L'élément #backoffice-container est manquant dans le HTML."
-      );
+    // Mise à jour du titre
+    const h1Title = document.querySelector("h1");
+    if (h1Title) {
+      h1Title.textContent = "Calendrier des Présences";
     }
   }
 });
@@ -417,32 +402,16 @@ function renderCalendar(targetDate) {
     let buttonClass = "btn-success";
     let buttonText = "Demander";
     let cellClass = "";
-    let isDisabled = "";
 
     if (isPast) {
       buttonClass = "btn-danger disabled";
       buttonText = "Passé";
       cellClass = "day-past";
-      isDisabled = "disabled"; // Désactiver les dates passées
-    } else if (requestState === PENDING_STATUS) {
-      // Utiliser la constante PENDING_STATUS
+    } else if (requestState === "requested") {
       buttonClass = "btn-warning";
       buttonText = "Annuler";
     }
-    // === NOUVEAU CODE POUR GÉRER ACCEPTÉ/REFUSÉ ===
-    else if (requestState === ACCEPTED_STATUS) {
-      // Utiliser la constante ACCEPTED_STATUS
-      buttonClass = "btn-success disabled";
-      buttonText = "Accepté";
-      cellClass = "day-accepted";
-      isDisabled = "disabled";
-    } else if (requestState === REFUSED_STATUS) {
-      // Utiliser la constante REFUSED_STATUS
-      buttonClass = "btn-danger disabled";
-      buttonText = "Refusé";
-      cellClass = "day-refused";
-      isDisabled = "disabled";
-    }
+
     // Structure de la cellule du jour
     daysGrid.innerHTML += `
             <div class="day ${cellClass} ${
@@ -452,7 +421,7 @@ function renderCalendar(targetDate) {
                 <button 
                     class="btn btn-sm ${buttonClass} presence-toggle" 
                     data-date="${fullDate}" 
-                    ${isDisabled} // <-- UTILISER LA NOUVELLE VARIABLE
+                    ${isPast ? "disabled" : ""}
                 >
                     ${buttonText}
                 </button>
@@ -618,56 +587,9 @@ const BASE_STORAGE_KEY = "presenceRequests_";
  * Récupère TOUTES les demandes de TOUS les utilisateurs du localStorage.
  * Chaque demande est transformée en objet { date, status, userEmail }.
  */
-/*function getAllRequestsForAdmin() {
-  let allRequests = [];
-
-  // 1. Parcourir toutes les clés du localStorage
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-
-    // 2. Filtrer uniquement les clés de demandes de présence
-    if (key.startsWith(BASE_STORAGE_KEY)) {
-      const userEmail = key.substring(BASE_STORAGE_KEY.length);
-
-      try {
-        const userRequests = JSON.parse(localStorage.getItem(key));
-
-        // 3. Parcourir les demandes de cet utilisateur
-        Object.keys(userRequests).forEach((date) => {
-          const status = userRequests[date];
-
-          // 4. Stocker la demande avec l'email de l'utilisateur
-          allRequests.push({
-            date,
-            status,
-            userEmail,
-          });
-        });
-      } catch (e) {
-        console.error(
-          "Erreur de parsing des données pour l'utilisateur:",
-          userEmail,
-          e
-        );
-      }
-    }
-  }
-  return allRequests;
-}
-*/
-/**
- * Récupère TOUTES les demandes de TOUS les utilisateurs du localStorage.
- * Chaque demande est transformée en objet { date, status, userEmail }.
- */
 function getAllRequestsForAdmin() {
   let allRequests = [];
 
-  // LOG CRITIQUE 1: Vérifie si la clé de base est correcte
-  console.log(
-    "BASE_STORAGE_KEY utilisée :",
-    typeof BASE_STORAGE_KEY !== "undefined" ? BASE_STORAGE_KEY : "NON DÉFINIE"
-  );
-
   // 1. Parcourir toutes les clés du localStorage
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -675,7 +597,6 @@ function getAllRequestsForAdmin() {
     // 2. Filtrer uniquement les clés de demandes de présence
     if (key.startsWith(BASE_STORAGE_KEY)) {
       const userEmail = key.substring(BASE_STORAGE_KEY.length);
-      console.log(`TROUVÉ: Clé utilisateur: ${key}`); // LOG 2: Clé trouvée
 
       try {
         const userRequests = JSON.parse(localStorage.getItem(key));
@@ -683,9 +604,6 @@ function getAllRequestsForAdmin() {
         // 3. Parcourir les demandes de cet utilisateur
         Object.keys(userRequests).forEach((date) => {
           const status = userRequests[date];
-
-          // LOG 3: Statut de la demande
-          console.log(`  - Demande pour ${date} a le statut: ${status}`);
 
           // 4. Stocker la demande avec l'email de l'utilisateur
           allRequests.push({
@@ -703,12 +621,52 @@ function getAllRequestsForAdmin() {
       }
     }
   }
-  // LOG 4: Résultat final
-  console.log(
-    `Total des demandes collectées par getAllRequestsForAdmin: ${allRequests.length}`
-  );
   return allRequests;
 }
+/*
+// 1. Fonction pour générer et afficher le tableau
+  function displayBackofficeRequests() {
+  const requests = getPresenceRequests();
+  const pendingContainer = document.getElementById("requests-table-container");
+  const processedContainer = document.getElementById(
+  "processed-requests-table-container"
+  );
+
+  let pendingRequests = [];
+  let processedRequests = [];
+
+  // --- SÉPARATION DES DEMANDES EN UN SEUL PASSAGE ---
+  // Les deux tableaux contiennent des objets { date, status }
+  Object.keys(requests).forEach((date) => {
+    const status = requests[date];
+
+    if (status === PENDING_STATUS) {
+      pendingRequests.push({ date, status });
+    } else if (status === ACCEPTED_STATUS || status === REFUSED_STATUS) {
+      processedRequests.push({ date, status });
+    }
+  });
+
+  // --- Génération de la table des Demandes en Attente ---
+  if (pendingRequests.length === 0) {
+    pendingContainer.innerHTML =
+      '<div class="alert alert-success">Aucune demande de présence en attente de modération.</div>';
+  } else {
+    pendingContainer.innerHTML = generateTableHtml(pendingRequests, "pending");
+  }
+
+  // --- Génération de la table des Demandes Traitées ---
+  if (processedRequests.length === 0) {
+    processedContainer.innerHTML =
+      '<div class="alert alert-info">Aucune demande n\'a encore été acceptée ou refusée.</div>';
+  } else {
+    processedContainer.innerHTML = generateTableHtml(
+      processedRequests,
+      "processed"
+    );
+  }
+}
+*/
 
 function displayBackofficeRequests() {
   // *** NOUVEAU : Récupération de TOUTES les demandes de TOUS les utilisateurs ***

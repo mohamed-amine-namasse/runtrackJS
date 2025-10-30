@@ -13,5 +13,10 @@
     "email": "toto@laplateforme.io",
     "password": "Password123!",
     "role": "user"
+  },
+  {
+    "email": "marco@laplateforme.io",
+    "password": "Password123!",
+    "role": "user"
   }
 ]
