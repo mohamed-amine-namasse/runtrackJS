@@ -39,3 +39,95 @@ h3 {
 body {
   height: 700px;
 }
+
+/* STYLES POUR LES MESSAGES D'ALERTE   */
+
+/* =================================== */
+
+#alert-message {
+  /* 1. Apparence et positionnement */
+
+  text-align: center;
+  padding: 15px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 500px; /* Limite la largeur pour ne pas prendre tout l'écran */
+  background-color: #4caf50; /* Couleur de fond pour l'alerte  */
+  color: white; /* Couleur du texte */
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* 2. Gestion de la visibilité et des transitions */
+
+  /* Par défaut : caché */
+
+  opacity: 0;
+  visibility: hidden; /* Assure que l'élément n'est pas cliquable lorsqu'il est invisible */
+
+  /* Ajoute une transition pour un effet de fondu (fade) en 0.5 seconde */
+
+  /* La transition de 'visibility' est retardée (0.5s) pour s'assurer qu'elle n'est appliquée qu'après que 'opacity' soit à 0 */
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+  z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
+}
+
+/* 3. Style appliqué quand le JS le rend visible (opacity: 1) */
+
+#alert-message[style*="opacity: 1"] {
+  /* Lorsque le JS met l'opacité à 1, on veut que la visibilité soit immédiate (0s) */
+  transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+  visibility: visible !important;
+}
+
+/* Styles spécifiques au calendrier */
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.day-name {
+  font-weight: bold;
+  padding: 10px 0;
+  background-color: #6c757d; /* Gris foncé */
+  color: white;
+  border-radius: 5px;
+}
+
+.day {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  padding: 10px 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100px;
+}
+
+.day-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0d6efd; /* Bleu de Bootstrap */
+}
+
+.day-today {
+  border: 3px solid #ffc107; /* Jaune pour le jour actuel */
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+}
+
+.day-past {
+  background-color: #f8f9fa; /* Gris très clair pour les jours passés */
+  color: #adb5bd;
+}
+
+.empty-day {
+  background-color: transparent;
+  border: none;
+}

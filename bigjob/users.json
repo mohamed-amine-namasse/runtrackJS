@@ -1,14 +1,17 @@
 [
   {
     "email": "jean.dupont@laplateforme.io",
-    "password": "Password123!"
+    "password": "Password123!",
+    "role": "admin"
   },
   {
     "email": "marie.curie@laplateforme.io",
-    "password": "Password123!"
+    "password": "Password123!",
+    "role": "user"
   },
   {
     "email": "utilisateur.test@laplateforme.io",
-    "password": "MonMotDePasseSecret42"
+    "password": "MonMotDePasseSecret42",
+    "role": "user"
   }
 ]
