@@ -132,3 +132,11 @@ body {
   background-color: transparent;
   border: none;
 }
+
+#nav-backoffice {
+  display: none;
+}
+
+#nav-calendrier {
+  display: none;
+}
