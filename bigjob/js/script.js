@@ -466,6 +466,13 @@ function handlePresenceToggle(event) {
   }
 
   savePresenceRequests(requests);
+  const alertElement = document.getElementById("alert-message");
+  if (alertElement) {
+    alertElement.scrollIntoView({
+      behavior: "smooth", // Rend le défilement plus agréable
+      block: "start", // Assure que l'élément est aligné en haut de la fenêtre
+    });
+  }
   displayAlert(message, 4000);
 }
 
